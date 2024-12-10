@@ -67,6 +67,20 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/myLists/:email", async (req, res) => {
+      const email = req.params.email;
+      const filter = { email };
+      const result = await addedTouristsSpotCollection.find(filter).toArray();
+      res.send(result);
+    });
+
+    app.delete("/myLists/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const result = await addedTouristsSpotCollection.deleteOne(filter);
+      res.send(result);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
