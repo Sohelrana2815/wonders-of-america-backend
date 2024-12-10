@@ -33,6 +33,7 @@ async function run() {
       .db("wonders_of_america_DB")
       .collection("addedTouristSpots");
 
+    //touristsSpotCollection
     app.get("/touristSpots", async (req, res) => {
       const result = await touristsSpotCollection.find().toArray();
       res.send(result);
@@ -45,13 +46,19 @@ async function run() {
       res.send(result);
     });
 
+    //addedTouristsSpotCollection api
 
+    app.post("/addTouristSpot", async (req, res) => {
+      const touristSpot = req.body;
+      console.log(touristSpot);
+      const result = await addedTouristsSpotCollection.insertOne(touristSpot);
+      res.send(result);
+    });
 
-    app.post('/addTouristSpot',async(req,res)=> {
-        const touristSpot = req.body;
-        console.log(touristSpot);
-        
-    })
+    app.get("/userAddedTouristSpots", async (req, res) => {
+      const result = await addedTouristsSpotCollection.find().toArray();
+      res.send(result);
+    });
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
