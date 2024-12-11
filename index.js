@@ -5,7 +5,15 @@ const port = process.env.PORT || 5000;
 const app = express();
 //Middleware
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://wonders-of-america.web.app",
+      "https://wonders-of-america.firebaseapp.com",
+    ],
+  })
+);
 
 // MongoDB related code
 
