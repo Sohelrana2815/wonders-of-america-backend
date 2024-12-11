@@ -67,10 +67,44 @@ async function run() {
       res.send(result);
     });
 
-    app.get("/myLists/:email", async (req, res) => {
-      const email = req.params.email;
+    app.get("/myLists", async (req, res) => {
+      const email = req.query.email;
       const filter = { email };
       const result = await addedTouristsSpotCollection.find(filter).toArray();
+      res.send(result);
+    });
+
+    app.get("/myLists/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const result = await addedTouristsSpotCollection.findOne(filter);
+      res.send(result);
+    });
+
+    app.patch("/updateMySpot/:id", async (req, res) => {
+      const id = req.params.id;
+      const myTouristSpot = req.body;
+      console.log(myTouristSpot, id);
+
+      const filter = { _id: new ObjectId(id) };
+      const updatedDoc = {
+        $set: {
+          image: myTouristSpot.image,
+          spotName: myTouristSpot.spotName,
+          countryName: myTouristSpot.countryName,
+          location: myTouristSpot.location,
+          description: myTouristSpot.description,
+          averageCost: myTouristSpot.averageCost,
+          seasonality: myTouristSpot.seasonality,
+          travelTime: myTouristSpot.travelTime,
+          totalVisitorsPerYear: myTouristSpot.totalVisitorsPerYear,
+        },
+      };
+
+      const result = await addedTouristsSpotCollection.updateOne(
+        filter,
+        updatedDoc
+      );
       res.send(result);
     });
 
