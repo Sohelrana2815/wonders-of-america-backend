@@ -5,16 +5,7 @@ const port = process.env.PORT || 5000;
 const app = express();
 //Middleware
 app.use(express.json());
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-      "http://localhost:5174",
-      "https://wonders-of-america.web.app",
-      "https://wonders-of-america.firebaseapp.com",
-    ],
-  })
-);
+app.use(cors());
 
 // MongoDB related code
 
@@ -32,7 +23,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
     // Tourists spot collection
     const touristsSpotCollection = client
       .db("wonders_of_america_DB")
@@ -125,7 +116,7 @@ async function run() {
     });
 
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
+    // await client.db("admin").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
